@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/Capstone-Frontend-ReactApp/static/css/main.8c66ddd5.chunk.css",
+    "main.js": "/Capstone-Frontend-ReactApp/static/js/main.04ec3d57.chunk.js",
+    "main.js.map": "/Capstone-Frontend-ReactApp/static/js/main.04ec3d57.chunk.js.map",
+    "runtime-main.js": "/Capstone-Frontend-ReactApp/static/js/runtime-main.2c9429b2.js",
+    "runtime-main.js.map": "/Capstone-Frontend-ReactApp/static/js/runtime-main.2c9429b2.js.map",
+    "static/css/2.2894c9e2.chunk.css": "/Capstone-Frontend-ReactApp/static/css/2.2894c9e2.chunk.css",
+    "static/js/2.aec1a5ec.chunk.js": "/Capstone-Frontend-ReactApp/static/js/2.aec1a5ec.chunk.js",
+    "static/js/2.aec1a5ec.chunk.js.map": "/Capstone-Frontend-ReactApp/static/js/2.aec1a5ec.chunk.js.map",
+    "index.html": "/Capstone-Frontend-ReactApp/index.html",
+    "static/css/2.2894c9e2.chunk.css.map": "/Capstone-Frontend-ReactApp/static/css/2.2894c9e2.chunk.css.map",
+    "static/css/main.8c66ddd5.chunk.css.map": "/Capstone-Frontend-ReactApp/static/css/main.8c66ddd5.chunk.css.map",
+    "static/js/2.aec1a5ec.chunk.js.LICENSE.txt": "/Capstone-Frontend-ReactApp/static/js/2.aec1a5ec.chunk.js.LICENSE.txt",
+    "static/media/boxicons.min.css": "/Capstone-Frontend-ReactApp/static/media/boxicons.cbd149c5.ttf",
+    "static/media/footer-bg.67e95f05.jpg": "/Capstone-Frontend-ReactApp/static/media/footer-bg.67e95f05.jpg",
+    "static/media/tmovie.67797e94.png": "/Capstone-Frontend-ReactApp/static/media/tmovie.67797e94.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.2c9429b2.js",
+    "static/css/2.2894c9e2.chunk.css",
+    "static/js/2.aec1a5ec.chunk.js",
+    "static/css/main.8c66ddd5.chunk.css",
+    "static/js/main.04ec3d57.chunk.js"
+  ]
+}
