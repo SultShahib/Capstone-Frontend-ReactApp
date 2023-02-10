@@ -2,26 +2,18 @@ import React, { useRef, useEffect } from 'react';
 
 import { Link, useLocation } from 'react-router-dom';
 
-import './header.scss';
+import './admin-header.scss';
 
 import logo from '../../assets/tmovie.png';
 
 const headerNav = [
   {
-    display: 'Movies',
-    path: '/movie',
-  },
-  {
     display: 'Logout',
     path: '/',
   },
-  {
-    display: 'Favourite',
-    path: '/favourite',
-  },
 ];
 
-const Header = ({ userid }) => {
+const AdminHeader = ({ userid }) => {
   const { pathname } = useLocation();
   const headerRef = useRef(null);
 
@@ -29,7 +21,6 @@ const Header = ({ userid }) => {
 
   useEffect(() => {
     const shrinkHeader = () => {
-      if (!headerRef.current) return;
       if (
         document.body.scrollTop > 100 ||
         document.documentElement.scrollTop > 100
@@ -49,21 +40,11 @@ const Header = ({ userid }) => {
     <div ref={headerRef} className='header'>
       <div className='header__wrap container'>
         <div className='logo'>
-          <Link to={`/movie/${userid}`}>🎥 Shahib's Movies 🍿</Link>
+          <Link to={`/`}>🎥 Admins's Dashboard 🍿</Link>
         </div>
         <ul className='header__nav'>
           <li>
-            <Link to={`${headerNav[0].path}/${userid}`}>
-              {headerNav[0].display}
-            </Link>
-          </li>
-          <li>
-            <Link to={`${headerNav[1].path}`}>{headerNav[1].display}</Link>
-          </li>
-          <li>
-            <Link to={`${headerNav[2].path}/${userid}`}>
-              {headerNav[2].display}
-            </Link>
+            <Link to={`${headerNav[0].path}`}>{headerNav[0].display}</Link>
           </li>
         </ul>
       </div>
@@ -71,4 +52,4 @@ const Header = ({ userid }) => {
   );
 };
 
-export default Header;
+export default AdminHeader;

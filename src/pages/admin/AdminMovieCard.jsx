@@ -1,15 +1,15 @@
 import React from 'react';
 
-import './movie-card.scss';
+import '../../components/movie-card/movie-card.scss';
 
 import { Link } from 'react-router-dom';
 
-import Button from '../button/Button';
+import Button from '../../components/button/Button';
 
 import { category } from '../../api/tmdbApi';
 import apiConfig from '../../api/apiConfig';
 
-const MovieCard = (props) => {
+const AdminMovieCard = (props) => {
   const item = props.item;
 
   const link =
@@ -31,4 +31,4 @@ const MovieCard = (props) => {
   );
 };
 
-export default MovieCard;
+export default AdminMovieCard;

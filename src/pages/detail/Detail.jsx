@@ -10,26 +10,85 @@ import VideoList from './VideoList';
 
 import MovieList from '../../components/movie-list/MovieList';
 import Loading from '../../components/loading/Loading';
+import Footer from '../../components/footer/Footer';
+import Header from '../../components/header/Header';
 
 const Detail = () => {
-  const { category, id } = useParams();
+  const { category, id, userid } = useParams();
+  const para = useParams();
+
+  console.log('@@details page@@', para);
 
   const [item, setItem] = useState(null);
   const [loading, setLoading] = useState(false);
-  useEffect(() => {
-    const getDetail = async () => {
-      // await tmdbApi.detail(category, id, {params:{}});
+  const [favouriteExists, setFavouriteExists] = useState(false);
+  const [refresh, setRefresh] = useState(false);
+  const checkForFavourite = async () => {
+    try {
       const response = await axios.get(
-        `https://api.themoviedb.org/3/${category}/${id}?api_key=5e83d3463b244867eab265ed5e141d03&language=en-US`
+        `http://localhost:8082/api/v1/favourite/checkFavouriteMovie/${id}/${userid}`
       );
-      setItem(response.data);
-      window.scrollTo(0, 0);
-    };
+      // TODO: remove console.logs before deployment
+      // console.log(JSON.stringify(response?.data));
+      console.log('@@Check favourite@@', response);
+      if (response.data == null) {
+        setFavouriteExists(false);
+      } else {
+        setFavouriteExists(true);
+      }
+    } catch (err) {
+      console.log('||| ERROR |||');
+      console.log(err);
+    }
+  };
+
+  const getDetail = async () => {
+    // await tmdbApi.detail(category, id, {params:{}});
+    const response = await axios.get(
+      `https://api.themoviedb.org/3/${category}/${id}?api_key=5e83d3463b244867eab265ed5e141d03&language=en-US`
+    );
+    setItem(response.data);
+    window.scrollTo(0, 0);
+  };
+  useEffect(() => {
+    checkForFavourite();
     getDetail();
-  }, [category, id]);
+  }, [category, id, refresh, favouriteExists]);
+
+  const addToFavourite = async () => {
+    let response;
+    checkForFavourite();
+    setRefresh((prevData) => !prevData);
+    try {
+      if (favouriteExists === false) {
+        response = await axios.post(
+          `http://localhost:8082/api/v1/favourite/addFavourite/${id}/${userid}`,
+          JSON.stringify({ id, userid }),
+          {
+            headers: { 'Content-Type': 'application/json' },
+            //   withCredentials: true,
+          }
+        );
+
+        setFavouriteExists(true);
+      } else {
+        response = await axios.delete(
+          `http://localhost:8082/api/v1/favourite/deleteFavouriteMovie/${id}/${userid}`
+        );
+        setFavouriteExists(false);
+      }
+      // TODO: remove console.logs before deployment
+      // console.log(JSON.stringify(response?.data));
+      console.log(JSON.stringify(response));
+    } catch (err) {
+      console.log('||| ERROR |||');
+      console.log(err);
+    }
+  };
 
   return (
     <>
+      <Header userid={userid} />
       {item && (
         <>
           <div
@@ -66,6 +125,30 @@ const Detail = () => {
                   ))}
               </div>
               <p className='overview'>{item.overview}</p>
+              <button
+                className='genres__item__favourite'
+                onClick={addToFavourite}
+              >
+                {/* <span className='genres__item__favourite'> */}
+                {favouriteExists === true
+                  ? 'Delete from favourites'
+                  : 'Add to favourites'}
+                <svg
+                  className='genres__item__favourite__heart'
+                  width='1em'
+                  height='1em'
+                  viewBox='0 0 16 16'
+                  class='bi bi-heart-fill'
+                  fill='red'
+                  xmlns='http://www.w3.org/2000/svg'
+                >
+                  <path
+                    fill-rule='evenodd'
+                    d='M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z'
+                  />
+                </svg>
+                {/* </span> */}
+              </button>
               <div className='cast'>
                 <div className='section__header'>
                   <h2>Casts</h2>
@@ -88,12 +171,14 @@ const Detail = () => {
                 setLoading={setLoading}
                 category={category}
                 type='similar'
+                userid={userid}
                 id={item.id}
               />
             </div>
           </div>
         </>
       )}
+      <Footer />
     </>
   );
 };

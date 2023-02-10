@@ -2,44 +2,27 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 
-import './movie-list.scss';
+import './movieFavouriteList.scss';
 
 import { SwiperSlide, Swiper } from 'swiper/react';
 import { Link } from 'react-router-dom';
 
-import Button from '../button/Button';
+import Button from '../../components/button/Button';
 
 import tmdbApi, { category } from '../../api/tmdbApi';
 import apiConfig from '../../api/apiConfig';
 
-import MovieCard from '../movie-card/MovieCard';
-import Loading from '../loading/Loading';
+import MovieCard from '../../components/movie-card/MovieCard';
+import Loading from '../../components/loading/Loading';
 
-const MovieList = (props) => {
+const MovieFavouriteList = (props) => {
+  const loading = props.loading;
   const [items, setItems] = useState([]);
-  const [similarLoading, setSimilarLoading] = useState(false);
-
-  const isLoadingTrue = () => props.setLoading(true);
-  const isLoadingFalse = () => props.setLoading(false);
-
   useEffect(() => {
     const getList = async () => {
       props.setLoading(true);
-      setSimilarLoading(true);
+      props.setSimilarLoading(true);
       setItems('');
-      const params = {};
-
-      // if (props.type !== 'similar') {
-      //     switch(props.category) {
-      //         case category.movie:
-      //             response = await tmdbApi.getMoviesList(props.type, {params});
-      //             break;
-      //         default:
-      //             response = await tmdbApi.getTvList(props.type, {params});
-      //     }
-      // } else {
-      //     response = await tmdbApi.similar(props.category, props.id);
-      // }
 
       try {
         const response = await tmdbApi.getSimilarMoviesList(props.id);
@@ -53,14 +36,13 @@ const MovieList = (props) => {
           })
         );
 
-        console.log('@@GetSImilarmovieData@@', getMovieData);
         setItems(getMovieData);
-        setSimilarLoading(false);
+        props.setLoading(false);
+        props.setSimilarLoading(false);
       } catch (error) {
         console.log('X|X ERROR X|X');
         console.log(error);
       }
-      props.setLoading(false);
     };
     getList();
   }, [props.id]);
@@ -68,19 +50,25 @@ const MovieList = (props) => {
   return (
     <div className='movie-list'>
       <Swiper grabCursor={true} spaceBetween={10} slidesPerView={'auto'}>
-        {items &&
-          items.map((item, i) => (
-            <SwiperSlide key={i}>
-              <MovieCard
-                item={item}
-                category={props.category}
-                userid={props.userid}
-              />
-            </SwiperSlide>
-          ))}
+        {items
+          ? items.map((item, i) => (
+              <SwiperSlide key={i}>
+                <MovieCard
+                  item={item}
+                  category={'movie'}
+                  userid={props.userid}
+                  key={i}
+                />
+              </SwiperSlide>
+            ))
+          : loading && <Loading />}
         {items.length === 0 && (
           <div className='section__header mb-2'>
-            {!similarLoading && <h2>No similar movies</h2>}
+            {!props.similarLoading && !items ? (
+              <h2>No similar movies for {props.title}</h2>
+            ) : (
+              <p></p>
+            )}
           </div>
         )}
       </Swiper>
@@ -88,9 +76,9 @@ const MovieList = (props) => {
   );
 };
 
-MovieList.propTypes = {
+MovieFavouriteList.propTypes = {
   category: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
 };
 
-export default MovieList;
+export default MovieFavouriteList;

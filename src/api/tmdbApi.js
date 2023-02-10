@@ -4,7 +4,6 @@ import axiosClientTMDB from './axiosClientTMDB';
 
 export const category = {
   movie: 'movie',
-  tv: 'tv',
 };
 
 export const movieType = {
@@ -24,6 +23,12 @@ const tmdbApi = {
     const url = 'api/v2/RecommendSystem/getAllMovies/' + type;
     return axiosClient.get(url);
   },
+
+  getAdminMovies: () => {
+    const url = 'api/v2/RecommendSystem/getAdminMovies';
+    return axiosClient.get(url);
+  },
+
   getSimilarMoviesList: (type) => {
     const url = 'api/v2/RecommendSystem/getSimilarMoviesTMDBID/' + type;
     return axiosClient.get(url);
@@ -36,9 +41,9 @@ const tmdbApi = {
     const url = category[cate] + '/' + id + '/videos';
     return axiosClientTMDB.get(url, { params: {} });
   },
-  search: (cate, params) => {
-    const url = 'search/' + category[cate];
-    return axiosClient.get(url, params);
+  search: (cate, keyword) => {
+    const url = `api/v2/RecommendSystem/getMovies/${keyword}`;
+    return axiosClient.get(url);
   },
   detail: (cate, id, params) => {
     const url = category[cate] + '/' + id;

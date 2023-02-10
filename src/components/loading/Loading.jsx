@@ -2,11 +2,16 @@ import './loading.scss';
 
 const Loading = () => {
   return (
-    <div id='outer'>
-      <div id='middle'>
-        <div id='inner'></div>
+    <>
+      <div className='section__header mb-2'>
+        <h2>Loading Movies...</h2>
       </div>
-    </div>
+      <div id='outer'>
+        <div id='middle'>
+          <div id='inner'></div>
+        </div>
+      </div>
+    </>
   );
 };
 

@@ -10,6 +10,7 @@ import CustomPagination from '../../components/pagination/CustomPagination';
 
 import tmdbApi, { category, movieType, tvType } from '../../api/tmdbApi';
 import axios from 'axios';
+import Loading from '../loading/Loading';
 
 const MovieGrid = (props) => {
   const [items, setItems] = useState();
@@ -17,27 +18,37 @@ const MovieGrid = (props) => {
   const [allMovieData, setAllMovieData] = useState();
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(0);
-  const numOfMovies = 20;
+  let numOfMovies = 20;
   const currentStackOfMovies = page * numOfMovies;
   const [hasFetchedData, setHasFetchedData] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const { keyword } = useParams();
-  //   console.log('@@Keyword@@', keyword);
+  console.log('@@Keyword@@', keyword);
+  console.log('@@props.userid@@', props.userid);
 
   useEffect(() => {
     const getList = async () => {
       let response = null;
       if (keyword === undefined) {
+        setLoading(true);
+        setAllMovieData('');
+        setItems('');
         response = await tmdbApi.getMoviesList(450);
         // break;
       } else {
         const params = {
           query: keyword,
         };
-        response = await tmdbApi.search(props.category, { params });
+        setAllMovieData('');
+        setItems('');
+        setLoading(true);
+        console.log('@@Getting search results@@');
+        response = await tmdbApi.search(props.category, keyword);
+
+        console.log(response);
       }
 
-      console.log('@@response', response);
       setAllMovieIMDBID(response);
 
       const getMovieData = await Promise.all(
@@ -49,16 +60,26 @@ const MovieGrid = (props) => {
         })
       );
 
-      setAllMovieData(getMovieData);
+      console.log('@@Getting search results@@');
+      console.log('@@Search results movie data', getMovieData);
 
-      setTotalPage(20);
-      setAllMovieData(getMovieData);
-      setItems(
-        getMovieData.slice(
-          currentStackOfMovies,
-          currentStackOfMovies + numOfMovies
-        )
-      );
+      if (getMovieData.length > 20) {
+        setTotalPage(20);
+        setAllMovieData(getMovieData);
+        setItems(
+          getMovieData.slice(
+            currentStackOfMovies,
+            currentStackOfMovies + numOfMovies
+          )
+        );
+        setLoading(false);
+      } else {
+        numOfMovies = getMovieData.length;
+        setTotalPage(getMovieData.length);
+        setAllMovieData(getMovieData);
+        setItems(getMovieData.slice(0, currentStackOfMovies + numOfMovies));
+        setLoading(false);
+      }
       //   setTotalPage(response.total_pages);
     };
 
@@ -66,14 +87,11 @@ const MovieGrid = (props) => {
       getList();
       setHasFetchedData(false);
     }
-  }, [hasFetchedData]);
+  }, [hasFetchedData, props.refresh]);
 
   const settingPagination = () => {
     // setMovieData(getMovieData.slice(0, 20));
     // setNumOfPages(movieData?.length / 20);
-
-    console.log('@@@@ Previous data @@@@@@');
-    console.log(items);
     setItems(
       allMovieData.slice(
         currentStackOfMovies,
@@ -89,15 +107,28 @@ const MovieGrid = (props) => {
     // eslint-disable-next-line
   }, [page]);
 
+  console.log('@@Items', items);
+
   return (
     <>
       <div className='section mb-3'>
-        <MovieSearch category={props.category} keyword={keyword} />
+        <MovieSearch
+          setRefresh={props.setRefresh}
+          category={props.category}
+          keyword={keyword}
+          userid={props.userid}
+        />
       </div>
       <div className='movie-grid'>
+        {loading && <Loading />}
         {items &&
           items.map((item, i) => (
-            <MovieCard category={props.category} item={item} key={i} />
+            <MovieCard
+              category={props.category}
+              item={item}
+              key={i}
+              userid={props.userid}
+            />
           ))}
       </div>
       {/* {page < totalPage ? (
@@ -119,8 +150,12 @@ const MovieSearch = (props) => {
 
   const goToSearch = useCallback(() => {
     if (keyword.trim().length > 0) {
-      history.push(`/${category[props.category]}/search/${keyword}`);
+      history.push(
+        `/${category[props.category]}/${props.userid}/search/${keyword}`
+      );
     }
+
+    props.setRefresh((prevData) => !prevData);
   }, [keyword, props.category, history]);
 
   useEffect(() => {

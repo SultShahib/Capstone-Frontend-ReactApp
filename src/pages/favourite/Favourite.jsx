@@ -2,14 +2,14 @@ import React from 'react';
 import { useState } from 'react';
 import { useParams } from 'react-router';
 
-import PageHeader from '../components/page-header/PageHeader';
+import PageHeader from '../../components/page-header/PageHeader';
 
-import { category as cate } from '../api/tmdbApi';
-import MovieGrid from '../components/movie-grid/MovieGrid';
-import Header from '../components/header/Header';
-import Footer from '../components/footer/Footer';
+import MovieGrid from '../../components/movie-grid/MovieGrid';
+import Header from '../../components/header/Header';
+import Footer from '../../components/footer/Footer';
+import MovieFavourite from './MovieFavourite';
 
-const Catalog = () => {
+const Favourite = () => {
   const { category, userid } = useParams();
   console.log('@@Catalog', category, userid);
   const [refresh, setRefresh] = useState(false);
@@ -20,11 +20,17 @@ const Catalog = () => {
       <Header userid={userid} />
       <PageHeader userid={userid} setRefresh={setRefresh}>
         {/* {category === cate.movie ? 'Movies' : 'TV Series'} */}
-        Movies
+        Favourites
       </PageHeader>
       <div className='container'>
         <div className='section mb-3'>
-          <MovieGrid
+          {/* <MovieGrid
+            refresh={refresh}
+            setRefresh={setRefresh}
+            category={category}
+            userid={userid}
+          /> */}
+          <MovieFavourite
             refresh={refresh}
             setRefresh={setRefresh}
             category={category}
@@ -37,4 +43,4 @@ const Catalog = () => {
   );
 };
 
-export default Catalog;
+export default Favourite;
