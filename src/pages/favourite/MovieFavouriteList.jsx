@@ -5,12 +5,8 @@ import axios from 'axios';
 import './movieFavouriteList.scss';
 
 import { SwiperSlide, Swiper } from 'swiper/react';
-import { Link } from 'react-router-dom';
 
-import Button from '../../components/button/Button';
-
-import tmdbApi, { category } from '../../api/tmdbApi';
-import apiConfig from '../../api/apiConfig';
+import tmdbApi from '../../api/tmdbApi';
 
 import MovieCard from '../../components/movie-card/MovieCard';
 import Loading from '../../components/loading/Loading';
@@ -18,6 +14,7 @@ import Loading from '../../components/loading/Loading';
 const MovieFavouriteList = (props) => {
   const loading = props.loading;
   const [items, setItems] = useState([]);
+
   useEffect(() => {
     const getList = async () => {
       props.setLoading(true);

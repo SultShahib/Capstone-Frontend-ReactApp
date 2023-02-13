@@ -54,11 +54,9 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // if button enabled with JS hack
     const v1 = USER_REGEX.test(email);
     const v2 = PWD_REGEX.test(pwd);
     if (!v1 || !v2) {
-      // if (!v2) {
       setErrMsg('Invalid Entry');
       return;
     }
@@ -68,14 +66,10 @@ const Register = () => {
         JSON.stringify({ email, pwd }),
         {
           headers: { 'Content-Type': 'application/json' },
-          //   withCredentials: true,
         }
       );
-      // TODO: remove console.logs before deployment
-      console.log(JSON.stringify(response?.data));
-      //console.log(JSON.stringify(response))
+
       setSuccess(true);
-      //clear state and controlled inputs
       setEmail('');
       setPwd('');
       setMatchPwd('');

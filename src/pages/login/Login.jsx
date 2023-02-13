@@ -1,6 +1,5 @@
-import { useRef, useState, useEffect, useContext } from 'react';
-import { redirect, Routes } from 'react-router-dom';
-import { Route, Link, Redirect } from 'react-router-dom';
+import { useRef, useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 import './login.css';
 
@@ -8,7 +7,6 @@ import axios from 'axios';
 const LOGIN_URL = 'api/v1/login';
 
 const Login = () => {
-  // const { setAuth } = useContext(AuthContext);
   const userRef = useRef();
   const errRef = useRef();
 
@@ -35,13 +33,9 @@ const Login = () => {
         JSON.stringify({ email, pwd }),
         {
           headers: { 'Content-Type': 'application/json' },
-          // withCredentials: true,
         }
       );
 
-      // const roles = response?.data?.roles;
-      // setAuth({ user, pwd });
-      console.log('@@response', response);
       setUserData(response.data);
       setEmail('');
       setPwd('');
@@ -80,7 +74,6 @@ const Login = () => {
           </Link>
         </section>
       ) : (
-        // <Route path='/movie' element={<Redirect to='/movie' />} />
         <section>
           <p
             ref={errRef}
@@ -116,7 +109,6 @@ const Login = () => {
             Need an Account?
             <br />
             <span className='line'>
-              {/*put router link here*/}
               <a href='/register'>Register</a>
             </span>
           </p>

@@ -24,8 +24,6 @@ const MovieGrid = (props) => {
   const [loading, setLoading] = useState(false);
 
   const { keyword } = useParams();
-  console.log('@@Keyword@@', keyword);
-  console.log('@@props.userid@@', props.userid);
 
   useEffect(() => {
     const getList = async () => {
@@ -35,15 +33,10 @@ const MovieGrid = (props) => {
         setAllMovieData('');
         setItems('');
         response = await tmdbApi.getMoviesList(450);
-        // break;
       } else {
-        const params = {
-          query: keyword,
-        };
         setAllMovieData('');
         setItems('');
         setLoading(true);
-        console.log('@@Getting search results@@');
         response = await tmdbApi.search(props.category, keyword);
 
         console.log(response);
@@ -59,9 +52,6 @@ const MovieGrid = (props) => {
           return movieResponse.data;
         })
       );
-
-      console.log('@@Getting search results@@');
-      console.log('@@Search results movie data', getMovieData);
 
       if (getMovieData.length > 20) {
         setTotalPage(20);
@@ -80,7 +70,6 @@ const MovieGrid = (props) => {
         setItems(getMovieData.slice(0, currentStackOfMovies + numOfMovies));
         setLoading(false);
       }
-      //   setTotalPage(response.total_pages);
     };
 
     if (!hasFetchedData) {
@@ -90,8 +79,6 @@ const MovieGrid = (props) => {
   }, [hasFetchedData, props.refresh]);
 
   const settingPagination = () => {
-    // setMovieData(getMovieData.slice(0, 20));
-    // setNumOfPages(movieData?.length / 20);
     setItems(
       allMovieData.slice(
         currentStackOfMovies,
@@ -131,13 +118,6 @@ const MovieGrid = (props) => {
             />
           ))}
       </div>
-      {/* {page < totalPage ? (
-        <div className='movie-grid__loadmore'>
-          <OutlineButton className='small' onClick={loadMore}>
-            Load more
-          </OutlineButton>
-        </div>
-      ) : null} */}
       <CustomPagination setPage={setPage} numOfPages={totalPage} page={page} />
     </>
   );

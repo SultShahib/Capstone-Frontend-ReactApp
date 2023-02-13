@@ -11,25 +11,16 @@ import MovieFavourite from './MovieFavourite';
 
 const Favourite = () => {
   const { category, userid } = useParams();
-  console.log('@@Catalog', category, userid);
   const [refresh, setRefresh] = useState(false);
-  console.log('@@Props.refresh@@', refresh);
 
   return (
     <>
       <Header userid={userid} />
       <PageHeader userid={userid} setRefresh={setRefresh}>
-        {/* {category === cate.movie ? 'Movies' : 'TV Series'} */}
         Favourites
       </PageHeader>
       <div className='container'>
         <div className='section mb-3'>
-          {/* <MovieGrid
-            refresh={refresh}
-            setRefresh={setRefresh}
-            category={category}
-            userid={userid}
-          /> */}
           <MovieFavourite
             refresh={refresh}
             setRefresh={setRefresh}

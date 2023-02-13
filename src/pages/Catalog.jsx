@@ -19,7 +19,6 @@ const Catalog = () => {
     <>
       <Header userid={userid} />
       <PageHeader userid={userid} setRefresh={setRefresh}>
-        {/* {category === cate.movie ? 'Movies' : 'TV Series'} */}
         Movies
       </PageHeader>
       <div className='container'>

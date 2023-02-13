@@ -17,15 +17,6 @@ import DeleteMovie from './pages/admin/DeleteMovie';
 function App() {
   return (
     <BrowserRouter>
-      {/* <Route
-          render={(props) => (
-            <>
-              <Header {...props} />
-              <Routes />
-              <Footer />
-            </>
-          )}
-        /> */}
       <Routes>
         <Route path='/favourite/:userid' exact component={Favourite} />
         <Route path='/register' exact component={Register} />

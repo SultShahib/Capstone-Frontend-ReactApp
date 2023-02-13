@@ -13,7 +13,6 @@ const VideoList = (props) => {
     const getVideos = async () => {
       const res = await tmdbApi.getVideos(category, props.id);
       setVideos(res.results.slice(0, 3));
-      console.log('@@results videos', res.results);
     };
     getVideos();
   }, [category, props.id]);
@@ -31,8 +30,6 @@ const Video = (props) => {
   useEffect(() => {
     const height = (iframeRef.current.offsetWidth * 9) / 16 + 'px';
     iframeRef.current.setAttribute('height', height);
-
-    console.log(iframeRef);
   }, []);
 
   return (

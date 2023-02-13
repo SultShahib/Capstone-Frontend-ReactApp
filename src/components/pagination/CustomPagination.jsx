@@ -2,7 +2,7 @@ import * as React from 'react';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 
-// CustomPagination renders the number of pages availible depending on the API call
+// CustomPagination renders the number of pages
 
 export default function CustomPagination({ setPage, numOfPages, page }) {
   const handlePageChange = (page) => {

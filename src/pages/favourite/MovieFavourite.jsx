@@ -16,37 +16,19 @@ import MovieFavouriteList from './MovieFavouriteList';
 
 const MovieFavourite = (props) => {
   const [items, setItems] = useState();
-  const [allMovieIMDBID, setAllMovieIMDBID] = useState();
-  const [allMovieData, setAllMovieData] = useState();
-  const [page, setPage] = useState(1);
-  const [totalPage, setTotalPage] = useState(0);
-  let numOfMovies = 20;
-  const currentStackOfMovies = page * numOfMovies;
-  const [hasFetchedData, setHasFetchedData] = useState(false);
   const [loading, setLoading] = useState(false);
   const [similarLoading, setSimilarLoading] = useState(false);
 
-  const { keyword } = useParams();
   const { userid } = useParams();
 
   useEffect(() => {
     const getList = async () => {
       let response = null;
       setLoading(true);
-      setAllMovieData('');
       setItems('');
       response = await axios.get(
         `http://localhost:8082/api/v1/favourite/getFavouriteMovies/${userid}`
       );
-      // break;
-      setAllMovieData('');
-      setItems('');
-      setLoading(true);
-      console.log('@@Getting search results@@');
-
-      console.log(response);
-
-      setAllMovieIMDBID(response);
 
       const getMovieData = await Promise.all(
         response &&
@@ -57,18 +39,12 @@ const MovieFavourite = (props) => {
             return movieResponse.data;
           })
       );
-
-      console.log('@@Getting search results@@');
-      console.log('@@Search results movie data', getMovieData);
       setItems(getMovieData);
       setLoading(false);
-      //   setTotalPage(response.total_pages);
     };
 
     getList();
-  }, [hasFetchedData, props.refresh]);
-
-  console.log('@@Items', items);
+  }, [props.refresh]);
 
   return (
     <>
@@ -89,7 +65,6 @@ const MovieFavourite = (props) => {
       <div className='section mb-3'>
         <div className='section__header mb-2'>
           <h2>Similar movies you may like</h2>
-          {/* <Loading /> */}
         </div>
         {similarLoading ? <Loading /> : <p> </p>}
         {items &&

@@ -14,7 +14,6 @@ const AddMovie = () => {
     <>
       <Header />
       <PageHeader setRefresh={setRefresh} userid={userid}>
-        {/* {category === cate.movie ? 'Movies' : 'TV Series'} */}
         Add Movies
       </PageHeader>{' '}
       <div className='container'>

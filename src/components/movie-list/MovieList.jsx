@@ -1,46 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-
 import './movie-list.scss';
-
 import { SwiperSlide, Swiper } from 'swiper/react';
-import { Link } from 'react-router-dom';
-
-import Button from '../button/Button';
-
-import tmdbApi, { category } from '../../api/tmdbApi';
-import apiConfig from '../../api/apiConfig';
-
+import tmdbApi from '../../api/tmdbApi';
 import MovieCard from '../movie-card/MovieCard';
-import Loading from '../loading/Loading';
 
 const MovieList = (props) => {
   const [items, setItems] = useState([]);
   const [similarLoading, setSimilarLoading] = useState(false);
-
-  const isLoadingTrue = () => props.setLoading(true);
-  const isLoadingFalse = () => props.setLoading(false);
 
   useEffect(() => {
     const getList = async () => {
       props.setLoading(true);
       setSimilarLoading(true);
       setItems('');
-      const params = {};
-
-      // if (props.type !== 'similar') {
-      //     switch(props.category) {
-      //         case category.movie:
-      //             response = await tmdbApi.getMoviesList(props.type, {params});
-      //             break;
-      //         default:
-      //             response = await tmdbApi.getTvList(props.type, {params});
-      //     }
-      // } else {
-      //     response = await tmdbApi.similar(props.category, props.id);
-      // }
-
       try {
         const response = await tmdbApi.getSimilarMoviesList(props.id);
         setItems('');
@@ -52,8 +26,6 @@ const MovieList = (props) => {
             return movieResponse.data;
           })
         );
-
-        console.log('@@GetSImilarmovieData@@', getMovieData);
         setItems(getMovieData);
         setSimilarLoading(false);
       } catch (error) {

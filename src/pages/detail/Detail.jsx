@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import axios from 'axios';
-import tmdbApi from '../../api/tmdbApi';
 import apiConfig2 from '../../api/apiConfig';
 
 import './detail.scss';
@@ -28,8 +27,6 @@ const Detail = () => {
       const response = await axios.get(
         `http://localhost:8082/api/v1/favourite/checkFavouriteMovie/${id}/${userid}`
       );
-      // TODO: remove console.logs before deployment
-      // console.log(JSON.stringify(response?.data));
       console.log('@@Check favourite@@', response);
       if (response.data == null) {
         setFavouriteExists(false);
@@ -43,7 +40,6 @@ const Detail = () => {
   };
 
   const getDetail = async () => {
-    // await tmdbApi.detail(category, id, {params:{}});
     const response = await axios.get(
       `https://api.themoviedb.org/3/${category}/${id}?api_key=5e83d3463b244867eab265ed5e141d03&language=en-US`
     );
@@ -66,7 +62,6 @@ const Detail = () => {
           JSON.stringify({ id, userid }),
           {
             headers: { 'Content-Type': 'application/json' },
-            //   withCredentials: true,
           }
         );
 
@@ -77,8 +72,6 @@ const Detail = () => {
         );
         setFavouriteExists(false);
       }
-      // TODO: remove console.logs before deployment
-      // console.log(JSON.stringify(response?.data));
       console.log(JSON.stringify(response));
     } catch (err) {
       console.log('||| ERROR |||');
@@ -129,7 +122,6 @@ const Detail = () => {
                 className='genres__item__favourite'
                 onClick={addToFavourite}
               >
-                {/* <span className='genres__item__favourite'> */}
                 {favouriteExists === true
                   ? 'Delete from favourites'
                   : 'Add to favourites'}
@@ -147,7 +139,6 @@ const Detail = () => {
                     d='M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z'
                   />
                 </svg>
-                {/* </span> */}
               </button>
               <div className='cast'>
                 <div className='section__header'>
@@ -164,7 +155,6 @@ const Detail = () => {
             <div className='section mb-3'>
               <div className='section__header mb-2'>
                 <h2>Similar movies you may like</h2>
-                {/* <Loading /> */}
               </div>
               {loading ? <Loading /> : <p> </p>}
               <MovieList

@@ -5,7 +5,6 @@ import apiConfigTMDB from './apiConfigTMDB';
 
 const axiosClientTMDB = axios.create({
   baseURL: apiConfigTMDB.baseUrl,
-  //   baseURL: apiConfig.baseUrl,
   headers: {
     'Content-Type': 'application/json',
   },

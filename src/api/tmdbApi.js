@@ -47,14 +47,10 @@ const tmdbApi = {
   },
   detail: (cate, id, params) => {
     const url = category[cate] + '/' + id;
-    // return axiosClient.get(url, params);
-    // apiKey: '5e83d3463b244867eab265ed5e141d03',
     return axios.get(`'https://api.themoviedb.org/3/${url}`);
-    //   baseUrl: 'https://api.themoviedb.org/3/',
   },
   credits: (cate, id) => {
     const url = category[cate] + '/' + id + '/credits';
-    // return axios.get(`'https://api.themoviedb.org/3/${url}`);
     return axiosClientTMDB.get(url, { params: {} });
   },
   similar: (cate, id) => {
