@@ -12,7 +12,7 @@ const AddMovie = () => {
   const [refresh, setRefresh] = useState(false);
   return (
     <>
-      <Header />
+      <Header userid={userid} />
       <PageHeader setRefresh={setRefresh} userid={userid}>
         Add Movies
       </PageHeader>{' '}

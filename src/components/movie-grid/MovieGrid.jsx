@@ -38,19 +38,19 @@ const MovieGrid = (props) => {
         setItems('');
         setLoading(true);
         response = await tmdbApi.search(props.category, keyword);
-
-        console.log(response);
       }
+      console.log('@@response', response);
 
       setAllMovieIMDBID(response);
 
       const getMovieData = await Promise.all(
-        response?.map(async (id) => {
-          const movieResponse = await axios.get(
-            `https://api.themoviedb.org/3/movie/${id}?api_key=5e83d3463b244867eab265ed5e141d03&language=en-US`
-          );
-          return movieResponse.data;
-        })
+        response &&
+          response?.map(async (id) => {
+            const movieResponse = await axios.get(
+              `https://api.themoviedb.org/3/movie/${id}?api_key=5e83d3463b244867eab265ed5e141d03&language=en-US`
+            );
+            return movieResponse.data;
+          })
       );
 
       if (getMovieData.length > 20) {
